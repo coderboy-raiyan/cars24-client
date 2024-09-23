@@ -93,7 +93,7 @@ function SignUp() {
               required
             />
             <p>
-              I accept{" "}
+              I accept
               <Link
                 className="text-primary hover:underline"
                 to="/terms-and-conditions"

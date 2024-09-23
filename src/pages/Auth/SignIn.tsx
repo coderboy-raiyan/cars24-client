@@ -1,6 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import InputField from "../../components/Input/InputField";
+import { AuthValidations } from "./utils/auth.utils";
 
 type TInputFields = {
   email: string;
@@ -8,7 +10,13 @@ type TInputFields = {
 };
 
 function SignIn() {
-  const { handleSubmit, register } = useForm<TInputFields>();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+  } = useForm<TInputFields>({
+    resolver: zodResolver(AuthValidations.signInValidationSchema),
+  });
 
   const onSubmit: SubmitHandler<TInputFields> = (data) => {
     console.log(data);
@@ -37,6 +45,7 @@ function SignIn() {
             type="email"
             register={register}
             placeholder="Email"
+            errors={errors}
           />
           <InputField
             name="password"
@@ -44,6 +53,7 @@ function SignIn() {
             type="password"
             register={register}
             placeholder="Password"
+            errors={errors}
           />
 
           <p className="text-sm font-normal">
@@ -52,7 +62,7 @@ function SignIn() {
               Sign up
             </Link>
           </p>
-          <button className="primary-btn" type="submit">
+          <button className="primary-btn w-2/6" type="submit">
             Sign in
           </button>
         </form>

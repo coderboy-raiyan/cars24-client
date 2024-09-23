@@ -26,7 +26,12 @@ const signUpValidationSchema = z
     },
     { message: "Password does not match!", path: ["confirmPassword"] }
   );
+const signInValidationSchema = z.object({
+  email: z.string().email(),
+  password: passwordValidationSchema,
+});
 
 export const AuthValidations = {
   signUpValidationSchema,
+  signInValidationSchema,
 };
