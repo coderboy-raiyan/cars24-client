@@ -4,6 +4,13 @@ body {
   font-family: "Poppins", system-ui;
   overflow-x: hidden;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .primary-btn {
+    @apply bg-btn-base hover:bg-btn-base-hover text-white py-2 px-4 rounded w-[20%] text-sm font-semibold;
+  }
+}

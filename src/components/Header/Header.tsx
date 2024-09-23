@@ -1,10 +1,11 @@
 import { FaUserCircle } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
+  const navigate = useNavigate();
   return (
-    <header className="shadow py-2">
+    <header className="shadow py-2 sticky top-0 z-[999] bg-white">
       <nav className="flex justify-between max-w-7xl mx-auto items-center">
         {/* logo */}
         <div className="w-[80%] flex items-center space-x-4">
@@ -47,10 +48,17 @@ function Header() {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-[200px] p-4 shadow"
             >
               <li>
-                <a>Item 1</a>
+                <button
+                  onClick={() => {
+                    navigate("/sign-in");
+                  }}
+                  className="bg-btn-base w-full hover:bg-btn-base-hover text-white py-2 px-4 rounded text-sm font-semibold"
+                >
+                  Login/Sign up
+                </button>
               </li>
               <li>
                 <a>Item 2</a>

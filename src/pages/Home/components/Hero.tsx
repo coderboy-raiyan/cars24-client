@@ -50,7 +50,7 @@ function Hero() {
               </Link>
             ))}
           </div>
-          <button className="bg-[#ef6e0b] hover:bg-[#d1600a] text-white py-2 px-4 rounded w-[20%] text-sm font-semibold">
+          <button className="bg-btn-base hover:bg-btn-base-hover text-white py-2 px-4 rounded w-[20%] text-sm font-semibold">
             Book now
           </button>
         </div>
