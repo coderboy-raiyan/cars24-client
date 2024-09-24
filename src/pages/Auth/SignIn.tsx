@@ -1,7 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { Link, useNavigate } from "react-router-dom";
 import InputField from "../../components/Input/InputField";
+import { useLoginMutation } from "../../redux/features/authApi";
+import { setUser } from "../../redux/features/authSlice";
+import { useAppDispatch } from "../../redux/hooks";
+import verifyJwt from "../../utils/verifyJwt";
 import { AuthValidations } from "./utils/auth.utils";
 
 type TInputFields = {
@@ -10,6 +15,10 @@ type TInputFields = {
 };
 
 function SignIn() {
+  const [signInHandler, { isLoading }] = useLoginMutation();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const {
     handleSubmit,
     register,
@@ -18,8 +27,16 @@ function SignIn() {
     resolver: zodResolver(AuthValidations.signInValidationSchema),
   });
 
-  const onSubmit: SubmitHandler<TInputFields> = (data) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<TInputFields> = async (data) => {
+    try {
+      const result = await signInHandler(data).unwrap();
+      const user = verifyJwt(result?.data?.accessToken);
+      dispatch(setUser({ user, accessToken: result?.data?.accessToken }));
+      toast.success("Signed in successfully!");
+      navigate("/");
+    } catch (error: any) {
+      toast.error(error?.data?.message, { className: "text-sm" });
+    }
   };
 
   return (
@@ -62,9 +79,16 @@ function SignIn() {
               Sign up
             </Link>
           </p>
-          <button className="primary-btn w-2/6" type="submit">
-            Sign in
-          </button>
+          {isLoading ? (
+            <button className="primary-btn flex items-center justify-center space-x-2 w-full">
+              <span className="loading loading-spinner"></span>
+              <span>Please wait...</span>
+            </button>
+          ) : (
+            <button className="primary-btn w-full" type="submit">
+              Sign in
+            </button>
+          )}
         </form>
       </div>
     </div>

@@ -1,7 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { TAdmin, TRider } from "../../types/user.type";
 
 type TInitialState = {
-  user: any | null;
+  user: TRider | TAdmin | null;
   accessToken: string | null;
 };
 

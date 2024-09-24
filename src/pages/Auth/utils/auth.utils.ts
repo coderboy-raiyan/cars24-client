@@ -6,11 +6,13 @@ const passwordValidationSchema = z
   .string()
   .min(1, { message: "Must have at least 1 character" })
   .regex(passwordValidationRegex, {
-    message: "Password must be at least 6 characters",
+    message:
+      "At least 6 characters including 1 uppercase Letter and 1 special character!",
   });
 
 const signUpValidationSchema = z
   .object({
+    name: z.string().max(50),
     email: z.string().email(),
     password: passwordValidationSchema,
     confirmPassword: passwordValidationSchema,
@@ -22,7 +24,7 @@ const signUpValidationSchema = z
   })
   .refine(
     (data) => {
-      return data.password !== data?.confirmPassword;
+      return data.password === data?.confirmPassword;
     },
     { message: "Password does not match!", path: ["confirmPassword"] }
   );

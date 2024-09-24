@@ -29,7 +29,7 @@ function InputField({
         required
       />
       {errors[`${name}`] && (
-        <p className="text-sm font-medium text-red-600">
+        <p className="text-xs font-medium text-red-600">
           {errors?.[`${name}`].message}
         </p>
       )}
