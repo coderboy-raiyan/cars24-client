@@ -4,13 +4,15 @@ import Sider from "../components/Sider";
 
 function AdminDashboard() {
   return (
-    <div className="drawer">
+    <div className="drawer bg-[#f5f5f5]">
       <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
       <div className="drawer-content flex flex-col">
         {/* Navbar */}
         <Navbar />
         {/* Page content here */}
-        <Outlet />
+        <div className="bg-white rounded-lg m-5 p-10">
+          <Outlet />
+        </div>
       </div>
       <Sider />
     </div>

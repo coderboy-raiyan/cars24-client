@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { TRoutes } from "../types/route.type";
 import { TSiderItems } from "../types/sider.type";
 
@@ -7,7 +7,18 @@ function generateSiderRoutes(routes: TRoutes[]) {
     if (route?.name && route?.path) {
       state.push({
         key: route?.path,
-        label: <Link to={route?.path}>{route?.name}</Link>,
+        label: (
+          <NavLink
+            className={({ isActive }) =>
+              `${
+                isActive ? "bg-[#1677ff]" : "text-white"
+              } focus:text-white focus:bg-[#1677ff] hover:bg-gray-700`
+            }
+            to={route?.path}
+          >
+            {route?.name}
+          </NavLink>
+        ),
       });
     }
     if (route?.children?.length) {
@@ -16,9 +27,16 @@ function generateSiderRoutes(routes: TRoutes[]) {
         children.push({
           key: route.path!,
           label: (
-            <Link to={nestedMenuItems?.path as string}>
+            <NavLink
+              className={({ isActive }) =>
+                `${
+                  isActive ? "bg-[#1677ff]" : "text-white"
+                } focus:text-white focus:bg-[#1677ff] hover:bg-gray-700`
+              }
+              to={nestedMenuItems?.path as string}
+            >
               {nestedMenuItems?.name}
-            </Link>
+            </NavLink>
           ),
         });
       });

@@ -14,7 +14,7 @@ function Sider() {
           aria-label="close sidebar"
           className="drawer-overlay"
         ></label>
-        <ul className="menu min-h-full w-72 p-4 bg-[#001529] text-white">
+        <ul className="menu min-h-full w-64 p-4 bg-[#001529] !text-white pt-20 space-y-2">
           {/* Sidebar content here */}
           {generateSiderComponents(siderItems)}
         </ul>

@@ -1,4 +1,4 @@
-import { TSiderItems } from "../pages/Dashboard/components/Sider";
+import { TSiderItems } from "../types/sider.type";
 
 const generateSiderComponents = (items: TSiderItems[]) => {
   return items.map((item) => {
