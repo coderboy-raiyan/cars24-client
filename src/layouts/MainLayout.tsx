@@ -8,11 +8,11 @@ import { useAppSelector } from "../redux/hooks";
 
 function MainLayout() {
   const dispatch = useDispatch();
-  const { user, accessToken } = useAppSelector((auth) => auth?.auth);
-  const { data, isSuccess } = useGetUserProfileQuery(null, { skip: !user });
+  const { accessToken } = useAppSelector((auth) => auth?.auth);
+  const { data, isSuccess } = useGetUserProfileQuery(null);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && accessToken) {
       dispatch(setUser({ user: data?.data, accessToken }));
     }
   }, [isSuccess]);

@@ -1,8 +1,13 @@
-import { FaUserCircle } from "react-icons/fa";
+import { AiOutlineUser } from "react-icons/ai";
+import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
+import { logout } from "../../redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 
 function Header() {
+  const { user, accessToken } = useAppSelector((auth) => auth?.auth);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   return (
     <header className="shadow py-2 sticky top-0 z-[999] bg-white">
@@ -36,11 +41,13 @@ function Header() {
 
         {/* Accounts and options */}
         <div className="w-[20%] flex justify-end">
-          <div className="dropdown dropdown-hover w-2/3">
+          <div className="dropdown dropdown-hover w-full">
             <div tabIndex={0} className="btn m-1 flex-col">
               <FaUserCircle />
               <div>
-                <p className="text-xs font-normal">Hello Sign in</p>
+                <p className="text-xs font-normal">
+                  Hello, {accessToken ? user?.name : "Sign in"}
+                </p>
                 <p>
                   Accounts <FaCaretDown className="inline" />
                 </p>
@@ -48,21 +55,46 @@ function Header() {
             </div>
             <ul
               tabIndex={0}
-              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-[200px] p-4 shadow"
+              className="dropdown-content menu bg-base-100 rounded-box z-[1] w-[350px] py-6 px-6 shadow right-24 top-20  !transition-all !duration-300"
             >
-              <li>
-                <button
-                  onClick={() => {
-                    navigate("/sign-in");
-                  }}
-                  className="bg-btn-base w-full hover:bg-btn-base-hover text-white py-2 px-4 rounded text-sm font-semibold"
-                >
-                  Login/Sign up
-                </button>
-              </li>
-              <li>
-                <a>Item 2</a>
-              </li>
+              {accessToken ? (
+                <div className="bg-gray-100 p-4 space-y-4 rounded-md">
+                  <Link
+                    className="flex items-center space-x-1 py-2 border-b text-xs font-semibold text-gray-600"
+                    to="dashboard"
+                  >
+                    <AiOutlineUser className="text-lg" />
+                    <span>My Dashboard</span>
+                  </Link>
+                  <Link
+                    className="flex items-center space-x-1 py-2 border-b text-xs font-semibold text-gray-600"
+                    to="dashboard"
+                  >
+                    <FaRegUserCircle className="text-lg" />{" "}
+                    <span>My Profile</span>
+                  </Link>
+
+                  <button
+                    onClick={() => {
+                      dispatch(logout());
+                    }}
+                    className="bg-btn-base rounded-lg text-white hover:bg-btn-base-hover uppercase font-semibold py-3 w-full"
+                  >
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={() => {
+                      navigate("/sign-in");
+                    }}
+                    className="bg-btn-base rounded-lg text-white hover:bg-btn-base-hover uppercase font-semibold py-3"
+                  >
+                    Log in/Sign up
+                  </button>
+                </>
+              )}
             </ul>
           </div>
         </div>
