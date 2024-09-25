@@ -1,14 +1,28 @@
+import { useEffect, useState } from "react";
 import { AiOutlineUser } from "react-icons/ai";
 import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
 import { FaCaretDown } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
 import { logout } from "../../redux/features/authSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { TUser, TUserRole } from "../../types/user.type";
+import verifyJwt from "../../utils/verifyJwt";
 
 function Header() {
   const { user, accessToken } = useAppSelector((auth) => auth?.auth);
+  const [role, setRole] = useState<null | TUserRole>(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken) {
+      const verifiedUser = verifyJwt(accessToken as string) as TUser;
+      setRole(
+        verifiedUser?.role === "superAdmin" ? "admin" : verifiedUser?.role
+      );
+    }
+  }, []);
+
   return (
     <header className="shadow py-2 sticky top-0 z-[999] bg-white">
       <nav className="flex justify-between max-w-7xl mx-auto items-center">
@@ -61,7 +75,7 @@ function Header() {
                 <div className="bg-gray-100 p-4 space-y-4 rounded-md">
                   <Link
                     className="flex items-center space-x-1 py-2 border-b text-xs font-semibold text-gray-600"
-                    to="dashboard"
+                    to={`${role}/dashboard`}
                   >
                     <AiOutlineUser className="text-lg" />
                     <span>My Dashboard</span>

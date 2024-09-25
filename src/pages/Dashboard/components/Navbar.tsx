@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <div className="navbar bg-white shadow w-full ">
+    <div className="navbar bg-white border-b shadow shadow-base-200 w-full ">
       <div className="flex-none lg:hidden">
         <label
           htmlFor="my-drawer-2"

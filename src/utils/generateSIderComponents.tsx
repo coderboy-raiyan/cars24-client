@@ -9,7 +9,9 @@ const generateSiderComponents = (items: TSiderItems[]) => {
             <summary>{item?.key}</summary>
             <ul>
               {item?.children?.map((submenu) => (
-                <li key={crypto.randomUUID()}>{submenu?.label}</li>
+                <li className="my-2" key={crypto.randomUUID()}>
+                  {submenu?.label}
+                </li>
               ))}
             </ul>
           </details>

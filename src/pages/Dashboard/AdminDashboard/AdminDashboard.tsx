@@ -10,7 +10,7 @@ function AdminDashboard() {
         {/* Navbar */}
         <Navbar />
         {/* Page content here */}
-        <div className="bg-white rounded-lg m-5 p-10">
+        <div className="bg-white rounded-lg shadow m-5 p-10">
           <Outlet />
         </div>
       </div>
