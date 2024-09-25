@@ -1,4 +1,5 @@
 import ManageBookings from "../pages/Dashboard/AdminDashboard/ManageBookings/ManageBookings";
+import AddCars from "../pages/Dashboard/AdminDashboard/ManageCars/AddCars";
 import RiderDashboard from "../pages/Dashboard/RiderDashboard/RiderDashboard";
 import { TRoutes } from "../types/route.type";
 
@@ -17,8 +18,8 @@ const adminRoutes: TRoutes[] = [
     children: [
       {
         name: "Add Cars",
-        path: "add-cars",
-        element: <RiderDashboard />,
+        path: "cars/add-cars",
+        element: <AddCars />,
       },
     ],
   },
