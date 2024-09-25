@@ -1,8 +1,10 @@
 import { UserConstants } from "../constant/user.constant";
 
+export type TUserRole = keyof typeof UserConstants.UserRoles;
+
 export type TUser = {
   email: string;
-  role: keyof typeof UserConstants.UserRoles;
+  role: TUserRole;
   isVerified: boolean;
   isDeleted: boolean;
 };

@@ -2,7 +2,11 @@ import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
+import AdminDashboard from "../pages/Dashboard/AdminDashboard/AdminDashboard";
+import RiderDashboard from "../pages/Dashboard/RiderDashboard/RiderDashboard";
 import Home from "../pages/Home/Home";
+import generateRoutes from "../utils/generateRoutes";
+import adminRoutes from "./admin.route";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +26,16 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
     ],
+  },
+  {
+    path: "/admin/dashboard",
+    element: <AdminDashboard />,
+    children: generateRoutes(adminRoutes),
+  },
+  {
+    path: "/rider/dashboard",
+    element: <RiderDashboard />,
+    children: [],
   },
 ]);
 
