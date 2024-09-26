@@ -21,7 +21,7 @@ function Header() {
         verifiedUser?.role === "superAdmin" ? "admin" : verifiedUser?.role
       );
     }
-  }, []);
+  }, [accessToken]);
 
   return (
     <header className="shadow py-2 sticky top-0 z-[999] bg-white">

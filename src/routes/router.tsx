@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import MainLayout from "../layouts/MainLayout";
+import ProtectedRoute from "../layouts/ProtectedRoute";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard/AdminDashboard";
@@ -29,12 +30,20 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin/dashboard",
-    element: <AdminDashboard />,
+    element: (
+      <ProtectedRoute requiredRoles={["admin", "superAdmin"]}>
+        <AdminDashboard />
+      </ProtectedRoute>
+    ),
     children: generateRoutes(adminRoutes),
   },
   {
     path: "/rider/dashboard",
-    element: <RiderDashboard />,
+    element: (
+      <ProtectedRoute requiredRoles={["rider"]}>
+        <RiderDashboard />
+      </ProtectedRoute>
+    ),
     children: [],
   },
 ]);
