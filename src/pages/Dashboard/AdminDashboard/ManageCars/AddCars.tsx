@@ -1,21 +1,6 @@
-// {
-//   "name": "Tesla Model S",
-//   "carType": "suv",
-//   "color": ["Red"],
-//   "description": "A luxurious electric car with autopilot and cutting-edge technology.",
-//   "features": [
-//     "Autopilot",
-//     "All-Wheel Drive",
-//     "Heated Seats",
-//     "Sunroof"
-//   ],
-//   "isElectric": true,
-//   "pricePerHour": 75.34
-// }
-
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import { IoMdImages } from "react-icons/io";
+import toast from "react-hot-toast";
 import { TiDelete } from "react-icons/ti";
 import InputField from "../../../../components/Input/InputField";
 import InputTextArea from "../../../../components/Input/InputTextArea";
@@ -30,24 +15,22 @@ type TAddCarsFields = {
 };
 
 function AddCars() {
-  const { handleSubmit, register } = useForm<TAddCarsFields>();
+  const { handleSubmit, register, reset } = useForm<TAddCarsFields>();
   const [colors, setColors] = useState<string[]>([]);
   const [features, setFeatures] = useState<string[]>([]);
   const [feature, setFeature] = useState<string>("");
-  const filesRef = useRef<HTMLInputElement>(null);
-  const [files, setFiles] = useState<any[]>([]);
-  const [images, setImages] = useState<any[]>([]);
-  const [handleCar, { isLoading }] = useCreateCarMutation();
-
-  useEffect(() => {
-    for (const file of files) {
-      setImages((prev) => {
-        return [...prev, { url: URL.createObjectURL(file), file }];
-      });
-    }
-  }, [files?.length]);
+  const [files, setFiles] = useState<any>([]);
+  const [handleCreateCar, { isLoading }] = useCreateCarMutation();
 
   const onSubmit: SubmitHandler<FieldValues> = async (fieldValues) => {
+    if (!features?.length) {
+      toast.error("Please add some feature!");
+      return;
+    }
+    if (!colors?.length) {
+      toast.error("Please add a car available colors!");
+      return;
+    }
     try {
       const formData = new FormData();
       const carData = {
@@ -56,13 +39,19 @@ function AddCars() {
         color: colors,
         features,
       };
-      formData.append("data", JSON.stringify(fieldValues));
+      formData.append("data", JSON.stringify(carData));
       for (const file of files) {
         formData.append("files", file);
       }
-      console.log(carData);
-    } catch (error) {
-      console.log(error);
+      await handleCreateCar(formData).unwrap();
+      toast.success("Car created successfully", { className: "text-sm" });
+      setFeatures([]);
+      setFeature("");
+      setColors([]);
+      reset();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error: any) {
+      toast.error("Internal Server Error!");
     }
   };
 
@@ -172,8 +161,8 @@ function AddCars() {
           <div className="rounded-md flex-1 min-h-[100px]">
             {features.length > 0 && (
               <div className="flex space-x-2 flex-wrap  my-3 py-2">
-                {features?.map((feature) => (
-                  <div className="relative w-[80px]">
+                {features?.map((feature, i) => (
+                  <div key={i} className="relative">
                     <div className="p-2 text-center text-sm border shadow bg-gray-100  rounded-full">
                       {feature}
                     </div>
@@ -201,9 +190,11 @@ function AddCars() {
             <input
               className="border rounded-md py-2 text-sm w-full hover:outline-none hover:ring-0 px-4 shadow focus:ring-0 focus:outline-none"
               type="text"
+              name="feature"
               onChange={(e) => setFeature(e.target.value)}
               value={feature}
               onKeyDown={(e) => {
+                e.stopPropagation();
                 if (e.key === "Enter") {
                   setFeatures((prev) => {
                     return [...prev, feature];
@@ -218,40 +209,14 @@ function AddCars() {
 
         {/* upload Image */}
         <div className="border p-4 my-4 rounded shadow">
-          <div className="flex flex-wrap space-x-2">
-            {images.map((img) => (
-              <div className="relative my-2">
-                <img
-                  src={img?.url}
-                  alt=""
-                  className="rounded object-contain size-[200px] border p-2"
-                />
-                <button
-                  onClick={() => {}}
-                  type="button"
-                  className="text-2xl absolute -right-2 bg-white rounded-full text-red-500 hover:animate-bounce -top-1"
-                >
-                  <TiDelete />
-                </button>
-              </div>
-            ))}
-          </div>
-          <div
-            className="border py-4 rounded-md shadow cursor-pointer  flex justify-center items-center"
-            onClick={() => filesRef.current!.click()}
-          >
-            <IoMdImages className="text-5xl" />
-          </div>
-
           <input
             type="file"
             multiple
             name="files"
-            className="hidden"
-            ref={filesRef}
             onChange={(e) => {
-              setFiles(e.target.files as any);
+              setFiles(e.target.files);
             }}
+            required
             accept=".png,.jpg"
           />
         </div>
@@ -262,7 +227,6 @@ function AddCars() {
             <label className="label cursor-pointer">
               <span className="label-text">Is it electric?</span>
               <input
-                required
                 type="checkbox"
                 {...register("isElectric")}
                 className="checkbox"
