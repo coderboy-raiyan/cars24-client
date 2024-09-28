@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserConstants } from "../../../constant/user.constant";
-import { useAppSelector } from "../../../redux/hooks";
+import { logout } from "../../../redux/features/authSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
 import adminRoutes from "../../../routes/admin.route";
 import riderRoutes from "../../../routes/rider.route";
 import { TSiderItems } from "../../../types/sider.type";
@@ -13,10 +15,18 @@ function Sider() {
   const { accessToken } = useAppSelector((auth) => auth?.auth);
   const [role, setRole] = useState<null | TUserRole>(null);
   const [siderItems, setSiderItems] = useState<TSiderItems[] | null>(null);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (accessToken) {
       const verifiedUser = verifyJwt(accessToken as string) as TUser;
+
+      if (!verifiedUser) {
+        dispatch(logout());
+        return navigate("/sign-in");
+      }
+
       setRole(
         verifiedUser?.role === "superAdmin" ? "admin" : verifiedUser?.role
       );
