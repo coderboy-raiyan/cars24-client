@@ -6,10 +6,11 @@ import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import InputField from "../../../../components/Input/InputField";
 import InputTextArea from "../../../../components/Input/InputTextArea";
+
 import {
   useGetSingleCarQuery,
   useUpdateCarMutation,
-} from "../../../../redux/features/admin/ManageCars/ManageCars.api";
+} from "../../../../redux/features/admin/ManageCars.api";
 import { TCar, TCarImages } from "../../../../types/car.type";
 
 function UpdateCar() {

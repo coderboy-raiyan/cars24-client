@@ -1,7 +1,6 @@
-import { TResponseRedux } from "../../../../types/apiResponse.type";
-import { TBooking } from "../../../../types/booking.type";
-import { TCar } from "../../../../types/car.type";
-import baseApi from "../../../api/baseApi";
+import { TResponseRedux } from "../../../types/apiResponse.type";
+import { TCar } from "../../../types/car.type";
+import baseApi from "../../api/baseApi";
 
 const ManageCarsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -39,30 +38,7 @@ const ManageCarsApi = baseApi.injectEndpoints({
         };
       },
     }),
-    getAllBookings: builder.query({
-      query: (queries: Record<string, string> | null) => {
-        const params = new URLSearchParams();
 
-        if (queries && Object.values(queries)?.length) {
-          Object.entries(queries).map(([key, val]) => {
-            params.append(key, val);
-          });
-        }
-
-        return {
-          url: "/bookings",
-          method: "GET",
-          params,
-        };
-      },
-      providesTags: ["bookings"],
-      transformResponse: (response: TResponseRedux<TBooking[]>) => {
-        return {
-          data: response?.data,
-          message: response?.message,
-        };
-      },
-    }),
     getSingleCar: builder.query({
       query: (id: string) => {
         return {
@@ -87,16 +63,7 @@ const ManageCarsApi = baseApi.injectEndpoints({
       },
       invalidatesTags: ["cars"],
     }),
-    updateBooking: builder.mutation({
-      query: (data) => {
-        return {
-          url: `/bookings/${data?.id}`,
-          method: "PATCH",
-          body: data?.data,
-        };
-      },
-      invalidatesTags: ["bookings"],
-    }),
+
     returnCar: builder.mutation({
       query: (data) => {
         return {
@@ -125,7 +92,5 @@ export const {
   useGetSingleCarQuery,
   useUpdateCarMutation,
   useDeleteCarMutation,
-  useGetAllBookingsQuery,
   useReturnCarMutation,
-  useUpdateBookingMutation,
 } = ManageCarsApi;

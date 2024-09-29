@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
+import Cars from "../pages/cars/Cars";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard/AdminDashboard";
 import RiderDashboard from "../pages/Dashboard/RiderDashboard/RiderDashboard";
 import Home from "../pages/Home/Home";
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/sign-up",
         element: <SignUp />,
+      },
+      {
+        path: "/cars",
+        element: <Cars />,
       },
     ],
   },

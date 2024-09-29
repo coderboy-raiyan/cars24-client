@@ -6,7 +6,7 @@ import Loader from "../../../../components/Loader/Loader";
 import {
   useDeleteCarMutation,
   useGetAllCarsQuery,
-} from "../../../../redux/features/admin/ManageCars/ManageCars.api";
+} from "../../../../redux/features/admin/ManageCars.api";
 
 function ManageCars() {
   const [deleteCar] = useDeleteCarMutation();

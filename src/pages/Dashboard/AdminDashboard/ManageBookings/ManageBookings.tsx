@@ -4,11 +4,12 @@ import toast from "react-hot-toast";
 import Swal from "sweetalert2";
 import Loader from "../../../../components/Loader/Loader";
 import { BookingConstants } from "../../../../constant/booking.constant";
+
 import {
   useGetAllBookingsQuery,
-  useReturnCarMutation,
   useUpdateBookingMutation,
-} from "../../../../redux/features/admin/ManageCars/ManageCars.api";
+} from "../../../../redux/features/admin/ManageBookings.api";
+import { useReturnCarMutation } from "../../../../redux/features/admin/ManageCars.api";
 import { TBooking } from "../../../../types/booking.type";
 import convertStringToDateAndTime from "../../../../utils/convertStringToDateAndTime";
 

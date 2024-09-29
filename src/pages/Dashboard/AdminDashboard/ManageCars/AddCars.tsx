@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { TiDelete } from "react-icons/ti";
 import InputField from "../../../../components/Input/InputField";
 import InputTextArea from "../../../../components/Input/InputTextArea";
-import { useCreateCarMutation } from "../../../../redux/features/admin/ManageCars/ManageCars.api";
+import { useCreateCarMutation } from "../../../../redux/features/admin/ManageCars.api";
 
 type TAddCarsFields = {
   name: string;
