@@ -1,4 +1,4 @@
-import { MouseEvent } from "react";
+import { MouseEvent, useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,10 +9,9 @@ import {
 } from "../../../../redux/features/admin/ManageCars/ManageCars.api";
 
 function ManageCars() {
-  const [deleteCar, { isLoading }] = useDeleteCarMutation();
-  const { data, isFetching } = useGetAllCarsQuery(null, {
-    refetchOnMountOrArgChange: isLoading,
-  });
+  const [deleteCar] = useDeleteCarMutation();
+  const [status, setStatus] = useState("available");
+  const { data, isFetching } = useGetAllCarsQuery({ status });
 
   const handleDeleteCar = (e: MouseEvent<HTMLButtonElement>, id: string) => {
     e.stopPropagation();
@@ -40,6 +39,18 @@ function ManageCars() {
 
   return (
     <div className="overflow-x-auto h-[500px] overflow-y-scroll">
+      <div>
+        <p className="text-sm font-semibold text-gray-600 my-2">
+          Select car status
+        </p>
+        <select
+          onChange={(e) => setStatus(e.target.value)}
+          className="select select-bordered w-full max-w-xs"
+        >
+          <option value="available">Available</option>
+          <option value="unavailable">Booked</option>
+        </select>
+      </div>
       <table className="table table-zebra">
         {/* head */}
         <thead>
@@ -50,6 +61,7 @@ function ManageCars() {
             <th>Features</th>
             <th>Car type</th>
             <th>Electric</th>
+            <th>Status</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -77,7 +89,7 @@ function ManageCars() {
                     {car?.features?.map((feature, i) => (
                       <p
                         key={i}
-                        className="p-1 flex-1 text-center text-xs  border shadow bg-gray-100  rounded-full"
+                        className="p-2 flex-1 text-center text-xs  border shadow bg-gray-100  rounded-full leading-tight"
                       >
                         {feature}
                       </p>
@@ -86,13 +98,25 @@ function ManageCars() {
                 </td>
                 <td>{car?.carType}</td>
                 <td>{car?.isElectric ? <span>Yes</span> : <span>No</span>}</td>
-                <td className="space-x-2 flex">
+                <td>
+                  {car?.status === "available" ? (
+                    <span className="bg-green-600 text-xs p-1 text-white rounded-lg font-semibold">
+                      Available
+                    </span>
+                  ) : (
+                    <span className="bg-yellow-600 text-xs p-1 text-white rounded-lg font-semibold">
+                      Booked
+                    </span>
+                  )}
+                </td>
+                <td className="space-x-2 flex items-center justify-center py-5">
                   <button
                     onClick={(e) => handleDeleteCar(e, car?._id)}
                     className="bg-red-500 text-xs py-2 px-3 text-white rounded-lg font-semibold"
                   >
                     Delete
                   </button>
+
                   <Link to={`/admin/dashboard/cars/update/${car?._id}`}>
                     <button className="bg-green-600 text-xs py-2 px-3 text-white rounded-lg font-semibold">
                       Edit

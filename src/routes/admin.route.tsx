@@ -19,7 +19,7 @@ const adminRoutes: TRoutes[] = [
     name: "Manage Cars",
     children: [
       {
-        name: "Car Listing",
+        name: "All cars",
         path: "cars/manage-cars",
         element: <ManageCars />,
       },
