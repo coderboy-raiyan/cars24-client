@@ -7,10 +7,8 @@ import Swal from "sweetalert2";
 import InputField from "../../../../components/Input/InputField";
 import InputTextArea from "../../../../components/Input/InputTextArea";
 
-import {
-  useGetSingleCarQuery,
-  useUpdateCarMutation,
-} from "../../../../redux/features/admin/ManageCars.api";
+import { useUpdateCarMutation } from "../../../../redux/features/admin/ManageCars.api";
+import { useGetSingleCarQuery } from "../../../../redux/features/rider/car.api";
 import { TCar, TCarImages } from "../../../../types/car.type";
 
 function UpdateCar() {

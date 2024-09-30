@@ -5,7 +5,7 @@ import baseApi from "../../api/baseApi";
 const CarsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllCars: builder.query({
-      query: (queries: Record<string, string>) => {
+      query: (queries: Record<string, string> | null) => {
         const params = new URLSearchParams();
 
         if (queries && Object.values(queries)?.length) {

@@ -3,10 +3,8 @@ import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import Loader from "../../../../components/Loader/Loader";
-import {
-  useDeleteCarMutation,
-  useGetAllCarsQuery,
-} from "../../../../redux/features/admin/ManageCars.api";
+import { useDeleteCarMutation } from "../../../../redux/features/admin/ManageCars.api";
+import { useGetAllCarsQuery } from "../../../../redux/features/rider/car.api";
 
 function ManageCars() {
   const [deleteCar] = useDeleteCarMutation();
