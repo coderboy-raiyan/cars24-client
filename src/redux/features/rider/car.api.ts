@@ -43,7 +43,32 @@ const CarsApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getSingleCarUsingSlug: builder.query({
+      query: (slug: string) => {
+        const params = new URLSearchParams();
+
+        if (slug) {
+          params.append("slug", slug);
+        }
+
+        return {
+          url: `/cars`,
+          method: "GET",
+          params,
+        };
+      },
+      transformResponse: (response: TResponseRedux<TCar[]>) => {
+        return {
+          data: response?.data,
+          message: response?.message,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetAllCarsQuery, useGetSingleCarQuery } = CarsApi;
+export const {
+  useGetAllCarsQuery,
+  useGetSingleCarQuery,
+  useGetSingleCarUsingSlugQuery,
+} = CarsApi;

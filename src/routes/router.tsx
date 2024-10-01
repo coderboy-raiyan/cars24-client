@@ -3,6 +3,7 @@ import MainLayout from "../layouts/MainLayout";
 import ProtectedRoute from "../layouts/ProtectedRoute";
 import SignIn from "../pages/Auth/SignIn";
 import SignUp from "../pages/Auth/SignUp";
+import CarDetails from "../pages/cars/CarDetails";
 import Cars from "../pages/cars/Cars";
 import AdminDashboard from "../pages/Dashboard/AdminDashboard/AdminDashboard";
 import RiderDashboard from "../pages/Dashboard/RiderDashboard/RiderDashboard";
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
       {
         path: "/cars",
         element: <Cars />,
+      },
+      {
+        path: "/cars/:slug",
+        element: <CarDetails />,
       },
     ],
   },

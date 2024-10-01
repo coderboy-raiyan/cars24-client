@@ -1,0 +1,7 @@
+.slick-dots li {
+  width: 100px;
+}
+.slick-dots li a img {
+  height: 80px;
+  object-fit: cover;
+}

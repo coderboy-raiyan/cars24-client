@@ -13,6 +13,7 @@ export type TCarImages = {
 export type TCar = {
   _id: string;
   name: string;
+  brand: string;
   carType: TCarTypes;
   images: TCarImages[];
   slug: string;
@@ -23,4 +24,8 @@ export type TCar = {
   features: string[];
   pricePerHour: number;
   isDeleted: false;
+  review: {
+    totalRating: number;
+    avgRating: number;
+  };
 };

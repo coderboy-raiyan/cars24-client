@@ -13,10 +13,10 @@ function Cars() {
   console.log(data);
   return (
     <section className="bg-gray-100">
-      <div className="grid grid-cols-10 py-10 max-w-7xl mx-auto gap-x-4">
+      <div className="grid grid-cols-10 py-10 max-w-7xl mx-auto">
         {/* filters */}
         <div className="col-span-2">
-          <div className="bg-white border-2 border-gray-100 shadow-xl shadow-[#cce2f2] p-4 rounded-lg flex flex-col space-y-8">
+          <div className="bg-white border-2 border-gray-100 shadow-xl shadow-[#cce2f2] p-4 rounded-lg flex flex-col space-y-8 sticky top-20">
             {/* budget */}
             <div className="space-y-4">
               <div className="text-sm font-semibold flex items-center space-x-2 text-gray-600">
@@ -92,8 +92,12 @@ function Cars() {
         </div>
 
         {/* cars */}
-        <div className="col-span-8">
-          <Car />
+        <div className="col-span-8 mx-10">
+          <div className="grid grid-cols-3">
+            {data?.data?.map((car) => (
+              <Car {...car} key={car?._id} />
+            ))}
+          </div>
         </div>
       </div>
     </section>
