@@ -28,6 +28,20 @@ const CarsApi = baseApi.injectEndpoints({
         };
       },
     }),
+    getFeaturedCars: builder.query({
+      query: () => {
+        return {
+          url: "/cars/featured",
+          method: "GET",
+        };
+      },
+      transformResponse: (response: TResponseRedux<TCar[]>) => {
+        return {
+          data: response?.data,
+          message: response?.message,
+        };
+      },
+    }),
 
     getSingleCar: builder.query({
       query: (id: string) => {
@@ -70,5 +84,6 @@ const CarsApi = baseApi.injectEndpoints({
 export const {
   useGetAllCarsQuery,
   useGetSingleCarQuery,
+  useGetFeaturedCarsQuery,
   useGetSingleCarUsingSlugQuery,
 } = CarsApi;

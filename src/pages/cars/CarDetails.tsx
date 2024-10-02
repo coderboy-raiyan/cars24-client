@@ -1,12 +1,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick-theme.css";
-import "slick-carousel/slick/slick.css";
+import { Swiper, SwiperSlide } from "swiper/react";
 import Loader from "../../components/Loader/Loader";
 import { useGetSingleCarUsingSlugQuery } from "../../redux/features/rider/car.api";
 import { TCar } from "../../types/car.type";
 import "./styles/car.style.css";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+
+// import required modules
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 
 function CarDetails() {
   const { slug } = useParams();
@@ -22,21 +29,7 @@ function CarDetails() {
     }
   }, [isSuccess, slug]);
 
-  const settings = {
-    customPaging: function (i: number) {
-      return (
-        <a className="">
-          <img className="" src={`${car?.images[i]?.secure_url}`} />
-        </a>
-      );
-    },
-    dots: true,
-    dotsClass: "slick-dots slick-thumb",
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    speed: 2000,
-  };
+  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
   return (
     <section className="max-w-7xl mx-auto">
@@ -45,18 +38,62 @@ function CarDetails() {
       ) : (
         <div className="grid grid-cols-2 my-10 h-screen">
           {/* slide */}
-          <div className="">
+          <div className="mx-4">
             <div className="slider-container ">
-              <Slider {...settings}>
+              <Swiper
+                style={
+                  {
+                    height: "400px",
+                    "--swiper-navigation-color": "#fff",
+                    "--swiper-pagination-color": "#fff",
+                    borderRadius: "10px",
+                  } as any
+                }
+                loop={true}
+                spaceBetween={10}
+                thumbs={{
+                  swiper:
+                    thumbsSwiper && !thumbsSwiper.destroyed
+                      ? thumbsSwiper
+                      : null,
+                }}
+                navigation={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper2"
+              >
                 {car?.images?.map((img) => (
-                  <div className="" key={img?.public_id}>
-                    <img
-                      className="h-[400px] mx-auto object-contain rounded-xl"
-                      src={img?.secure_url}
-                    />
-                  </div>
+                  <SwiperSlide key={img?.public_id}>
+                    <div className="">
+                      <img
+                        className="h-[400px] mx-auto object-contain rounded-xl"
+                        src={img?.secure_url}
+                      />
+                    </div>
+                  </SwiperSlide>
                 ))}
-              </Slider>
+              </Swiper>
+              <Swiper
+                onSwiper={setThumbsSwiper}
+                loop={true}
+                spaceBetween={10}
+                slidesPerView={4}
+                freeMode={true}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Navigation, Thumbs]}
+                className="mySwiper"
+              >
+                {car?.images?.map((img) => (
+                  <SwiperSlide
+                    key={img?.public_id}
+                    className="h-[100px] rounded-xl"
+                  >
+                    <img
+                      src={img?.secure_url}
+                      className="rounded-xl object-cover"
+                    />
+                  </SwiperSlide>
+                ))}
+              </Swiper>
             </div>
           </div>
 
